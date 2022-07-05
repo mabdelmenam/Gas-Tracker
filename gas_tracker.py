@@ -5,8 +5,10 @@
 #make options for where somneone would want to display, bottom right, top right, top left, bottom left
 #make an opacity slider or change option
 #make executable
+from calendar import c
 from tkinter import *
 import tkinter.ttk as ttk
+import time
 
 from etherscan import Etherscan
 
@@ -31,27 +33,48 @@ def gas_price():
     return(safe_gas, propose_gas_price,fast_gas_price)
 
 def main_gui():
+    main_gui.solid = False
     root.title('Ethereum Gas Tracker')
     root.geometry("400x250")
-    root.attributes('-alpha', 1.0)
+    root.attributes('-alpha', 0.75)
+    #Making solid when clicked on
+
+    def make_solid(e):
+        root.attributes('-alpha', 1.0)
+        root.overrideredirect(False)
+        main_gui.solid = True
+    
+    root.bind("<Button-1>", make_solid)
+    root.bind("<Button-2>", root.overrideredirect(True))
+
+    # def any_click(event):
+    #     print(f"you clicked: {event.num}")
+    # print(any_click)
+
+    # if(main_gui.solid == False):
+    #     root.overrideredirect(True)
+    # else:
+        
+    #     main_gui.solid = False
+    
     
     low, average, high = gas_price()
 
 
     low_text = Label(root, text="Low", fg="#000000", font=("Helvetica,Arial,sans-serif", 16))
     low_gas_label = Label(root, text=low, fg="#00c9a7", font=("Helvetica,Arial,sans-serif", 20))
-    low_text.place(relx=0.25, rely=0.2)
-    low_gas_label.place(relx = 0.25, rely = 0.4)
+    low_text.place(relx=0.25, rely=0.2,anchor=W)
+    low_gas_label.place(relx = 0.25, rely = 0.4, anchor=W)
 
     average_text = Label(root, text="Average", fg="#000000", font=("Helvetica,Arial,sans-serif", 16))
     average_gas_label = Label(root, text=average, fg="#3498db", font=("Helvetica,Arial,sans-serif", 20))
-    average_text.place(relx=0.47, rely=0.2)
-    average_gas_label.place(relx=0.5,rely=0.4)
+    average_text.place(relx=0.5, rely=0.2,anchor=CENTER)
+    average_gas_label.place(relx=0.5,rely=0.4, anchor=CENTER)
 
     high_text = Label(root, text="High", fg="#000000", font=("Helvetica,Arial,sans-serif", 16))
     high_gas_label = Label(root, text=high, fg="#a52a2a", font=("Helvetica,Arial,sans-serif", 20))
-    high_text.place(relx=0.75, rely=0.2)
-    high_gas_label.place(relx=0.75, rely=0.4)
+    high_text.place(relx=0.75, rely=0.2, anchor=E)
+    high_gas_label.place(relx=0.75, rely=0.4, anchor=E)
 
     #Slide Function
     def slide(x):
@@ -60,7 +83,7 @@ def main_gui():
 
     #Slider
     my_slider = ttk.Scale(root, from_=0.1,to=1.0, value=1.0, orient=HORIZONTAL, command=slide)
-    my_slider.place(relx=0.4, rely=0.65)
+    my_slider.place(relx=0.5, rely=0.65, anchor=CENTER)
 
     #Creates a Label that will be used to dispaly the value of the slider
     slide_label = Label(root, text='')
