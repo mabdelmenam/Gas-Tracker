@@ -33,30 +33,20 @@ def gas_price():
     return(safe_gas, propose_gas_price,fast_gas_price)
 
 def main_gui():
-    main_gui.solid = False
     root.title('Ethereum Gas Tracker')
     root.geometry("400x250")
     root.attributes('-alpha', 0.75)
-    #Making solid when clicked on
 
+    #Making solid when clicked on
     def make_solid(e):
         root.attributes('-alpha', 1.0)
         root.overrideredirect(False)
-        main_gui.solid = True
+    #Removing window frame when right click is clicked
+    def remove_frame(e):
+        root.overrideredirect(True)
     
     root.bind("<Button-1>", make_solid)
-    root.bind("<Button-2>", root.overrideredirect(True))
-
-    # def any_click(event):
-    #     print(f"you clicked: {event.num}")
-    # print(any_click)
-
-    # if(main_gui.solid == False):
-    #     root.overrideredirect(True)
-    # else:
-        
-    #     main_gui.solid = False
-    
+    root.bind("<Button-3>", remove_frame)
     
     low, average, high = gas_price()
 
