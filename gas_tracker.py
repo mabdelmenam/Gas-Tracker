@@ -1,6 +1,7 @@
 #use API to get the gas price
 #create nromal gui to display
 #design, make transparent
+#add a drop down for widthxheight, font and font size, background,
 #figure out how to make it stuck on a different corner of the screen
 #make options for where somneone would want to display, bottom right, top right, top left, bottom left
 #make an opacity slider or change option
@@ -34,7 +35,7 @@ def gas_price():
 
 def main_gui():
     root.title('Ethereum Gas Tracker')
-    root.geometry("400x250")
+    root.geometry("500x200") #width x height
     root.attributes('-alpha', 0.75)
 
     #Making solid when clicked on
@@ -47,6 +48,10 @@ def main_gui():
     
     root.bind("<Button-1>", make_solid)
     root.bind("<Button-3>", remove_frame)
+
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    print(screen_width, " ", screen_height)
     
     low, average, high = gas_price()
 
