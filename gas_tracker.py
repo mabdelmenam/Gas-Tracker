@@ -6,12 +6,15 @@
 #make options for where somneone would want to display, bottom right, top right, top left, bottom left
 #make an opacity slider or change option
 #make executable
+
+#https://www.youtube.com/watch?v=qTiqnV1MaNs
 from calendar import c
 from tkinter import *
 import tkinter.ttk as ttk
 import time
 
 from etherscan import Etherscan
+from sqlalchemy import false
 
 eth = Etherscan("5V75QSVZNG6DNXC7IHZ6ZYAMU9VXB2W4V3")
 root = Tk()
@@ -45,18 +48,30 @@ def remove_frame(e):
 #Changing font family
 def my_font_family(family): 
     font[0] = family
+#Hover color on enter
+def on_enter(e):
+    e.widget['bg'] = 'yellow'
+#Hover color on leave
+def on_leave(e):
+    e.widget['activebackground'] = 'lightgreen'
 
 #Changing font, font-family, and style(bold, italic, underline)
 def font_changes():
     print("inside")
     menu_bar = Menu(root)
-    root.config(menu=menu_bar)
 
-    menu_font = Menu(menu_bar, title="Test title", tearoff=1, fg='black', bg='white')
-    menu_sub_family=Menu(menu_font, tearoff=0, bg='red')
+    menu_font = Menu(menu_bar,tearoff=False)
+    menu_bar.add_cascade(label="Font", menu=menu_font)
+
+    menu_sub_family=Menu(menu_font, tearoff=False)
+    menu_sub_family.add_command(label="Times", command=lambda:my_font_family('Times'))
 
     menu_font.add_cascade(label="Font Family", menu=menu_sub_family)
-    menu_sub_family.add_command(label="Times", command=lambda:my_font_family('Times'))
+    menu_font.bind("<Enter>", on_enter)
+    menu_font.bind("Leave", on_leave)
+
+
+    root.config(menu=menu_bar)
 
     print("end")  
 
