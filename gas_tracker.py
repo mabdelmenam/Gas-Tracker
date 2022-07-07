@@ -15,6 +15,7 @@ from etherscan import Etherscan
 
 eth = Etherscan("5V75QSVZNG6DNXC7IHZ6ZYAMU9VXB2W4V3")
 root = Tk()
+font = ['Helvetica,Arial,sans-serif', 16, 'normal']
 
 def main():
     print(gas_price())
@@ -33,20 +34,41 @@ def gas_price():
 
     return(safe_gas, propose_gas_price,fast_gas_price)
 
+#Making solid when clicked on
+def make_solid(e):
+    root.attributes('-alpha', 1.0)
+    root.overrideredirect(False)
+
+#Removing window frame when right click is clicked
+def remove_frame(e):
+    root.overrideredirect(True)
+#Changing font family
+def my_font_family(family): 
+    font[0] = family
+
+#Changing font, font-family, and style(bold, italic, underline)
+def font_changes():
+    print("inside")
+    menu_bar = Menu(root)
+    root.config(menu=menu_bar)
+
+    menu_font = Menu(menu_bar, title="Test title", tearoff=1, fg='black', bg='white')
+    menu_sub_family=Menu(menu_font, tearoff=0, bg='red')
+
+    menu_font.add_cascade(label="Font Family", menu=menu_sub_family)
+    menu_sub_family.add_command(label="Times", command=lambda:my_font_family('Times'))
+
+    print("end")  
+
 def main_gui():
     root.title('Ethereum Gas Tracker')
     root.geometry("500x200") #width x height
     root.attributes('-alpha', 0.75)
-
-    #Making solid when clicked on
-    def make_solid(e):
-        root.attributes('-alpha', 1.0)
-        root.overrideredirect(False)
-    #Removing window frame when right click is clicked
-    def remove_frame(e):
-        root.overrideredirect(True)
+    font_changes()
     
+    #Calling make_solid() function when left-mouse is clicked
     root.bind("<Button-1>", make_solid)
+    #Calling remove_frame() function when right-mouse is clicked
     root.bind("<Button-3>", remove_frame)
 
     screen_width = root.winfo_screenwidth()
