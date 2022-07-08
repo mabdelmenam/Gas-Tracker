@@ -10,18 +10,21 @@
 #https://www.youtube.com/watch?v=qTiqnV1MaNs
 from calendar import c
 from tkinter import *
+import tkinter.font as font
 import tkinter.ttk as ttk
 import time
 
 from etherscan import Etherscan
+from matplotlib.ft2font import BOLD
+from matplotlib.pyplot import text
 from sqlalchemy import false
 
 eth = Etherscan("5V75QSVZNG6DNXC7IHZ6ZYAMU9VXB2W4V3")
 root = Tk()
-font = ['Helvetica,Arial,sans-serif', 16, 'normal']
-
+font1 = ['Helvetica,Arial,sans-serif', 16, 'normal']
+print(font.families())
 def main():
-    print(gas_price())
+    #print(gas_price())
     main_gui()
     root.mainloop()
 
@@ -46,40 +49,42 @@ def make_solid(e):
 def remove_frame(e):
     root.overrideredirect(True)
 #Changing font family
-def my_font_family(family): 
-    font[0] = family
-#Hover color on enter
-def on_enter(e):
-    e.widget['bg'] = 'yellow'
-#Hover color on leave
-def on_leave(e):
-    e.widget['activebackground'] = 'lightgreen'
+def my_font_family(type_of_family, low_text, average_text, high_text): 
+    print("Default Text: " , font1[0])
+    #font1[0] = type_of_family
+    # font.Font(family=type_of_family)
+    text_labels = [low_text,average_text, high_text]
+    for i in text_labels:
+        i.config(font=(type_of_family))
+
+
+    print("Changed Text: ", font1[0])
 
 #Changing font, font-family, and style(bold, italic, underline)
-def font_changes():
-    print("inside")
+def font_changes(low_text, average_text, high_text):
     menu_bar = Menu(root)
 
-    menu_font = Menu(menu_bar,tearoff=False)
+    menu_font = Menu(menu_bar,tearoff=False, 
+    background='#fff', fg="#000", activebackground="#afaaaa", 
+    activeforeground="#000", font="Helvetica,Arial,sans-serif 8 bold")
+
     menu_bar.add_cascade(label="Font", menu=menu_font)
 
-    menu_sub_family=Menu(menu_font, tearoff=False)
-    menu_sub_family.add_command(label="Times", command=lambda:my_font_family('Times'))
+    menu_sub_family=Menu(menu_font, tearoff=False, 
+    background='pink', fg="#000", activebackground="#00c733", 
+    activeforeground="#fff", font="Helvetica,Arial,sans-serif 8 bold")
 
     menu_font.add_cascade(label="Font Family", menu=menu_sub_family)
-    menu_font.bind("<Enter>", on_enter)
-    menu_font.bind("Leave", on_leave)
 
+    different_fonts = ['Arial', 'Arial Black', 'Calibri', 'Calibri Light', 'Cambria', 'Comic Sans MS', 'Garamond', 'Georgia', 'Helvetica', 'Rockwell', 'Times New Roman']
+    menu_sub_family.add_command(label="Times", command=lambda:my_font_family('Terminal', low_text, average_text, high_text))
 
     root.config(menu=menu_bar)
-
-    print("end")  
 
 def main_gui():
     root.title('Ethereum Gas Tracker')
     root.geometry("500x200") #width x height
     root.attributes('-alpha', 0.75)
-    font_changes()
     
     #Calling make_solid() function when left-mouse is clicked
     root.bind("<Button-1>", make_solid)
@@ -94,6 +99,8 @@ def main_gui():
 
 
     low_text = Label(root, text="Low", fg="#000000", font=("Helvetica,Arial,sans-serif", 16))
+    print(type(font))
+    print(type(font1))
     low_gas_label = Label(root, text=low, fg="#00c9a7", font=("Helvetica,Arial,sans-serif", 20))
     low_text.place(relx=0.25, rely=0.2,anchor=W)
     low_gas_label.place(relx = 0.25, rely = 0.4, anchor=W)
@@ -120,6 +127,8 @@ def main_gui():
     #Creates a Label that will be used to dispaly the value of the slider
     slide_label = Label(root, text='')
     slide_label.place(relx=0.5, rely=0.75)
+
+    font_changes(low_text, average_text, high_text)
 
 
 
