@@ -18,11 +18,12 @@ from etherscan import Etherscan
 from matplotlib.ft2font import BOLD
 from matplotlib.pyplot import text
 from sqlalchemy import false
+from sympy import diff
 
 eth = Etherscan("5V75QSVZNG6DNXC7IHZ6ZYAMU9VXB2W4V3")
 root = Tk()
 font1 = ['Helvetica,Arial,sans-serif', 16, 'normal']
-print(font.families())
+#print(font.families())
 def main():
     #print(gas_price())
     main_gui()
@@ -50,15 +51,17 @@ def remove_frame(e):
     root.overrideredirect(True)
 #Changing font family
 def my_font_family(type_of_family, low_text, average_text, high_text): 
-    print("Default Text: " , font1[0])
+    #print("Default Text: " , font1[0])
     #font1[0] = type_of_family
     # font.Font(family=type_of_family)
     text_labels = [low_text,average_text, high_text]
     for i in text_labels:
+        print(type_of_family)
+        print("in here")
         i.config(font=(type_of_family))
 
 
-    print("Changed Text: ", font1[0])
+    #print("Changed Text: ", font1[0])
 
 #Changing font, font-family, and style(bold, italic, underline)
 def font_changes(low_text, average_text, high_text):
@@ -76,8 +79,22 @@ def font_changes(low_text, average_text, high_text):
 
     menu_font.add_cascade(label="Font Family", menu=menu_sub_family)
 
-    different_fonts = ['Arial', 'Arial Black', 'Calibri', 'Calibri Light', 'Cambria', 'Comic Sans MS', 'Garamond', 'Georgia', 'Helvetica', 'Rockwell', 'Times New Roman']
-    menu_sub_family.add_command(label="Times", command=lambda:my_font_family('Terminal', low_text, average_text, high_text))
+    different_fonts = ['Arial', 'Arial Black', 'Calibri', 'Calibri Light', 'Cambria', 'Comic Sans MS', 'Garamond', 'Georgia', 'Helvetica', 
+    'Rockwell']
+    font_command_calls = [None] * len(different_fonts)
+    print(len(different_fonts))
+    x = 0
+    for n in range(len(different_fonts)):
+        print(n)
+        print("Before: ", font_command_calls[n])
+        font_command_calls.append(menu_sub_family.add_command(label=different_fonts[n], command=lambda:my_font_family(different_fonts[n], low_text, average_text, high_text)))
+        #font_command_calls[n] = n+12
+        print("After: ", font_command_calls[n])   
+    #menu_sub_family.add_command(label="Times", command=lambda:my_font_family('Terminal', low_text, average_text, high_text))
+
+    #for i in font_command_calls:
+    #    print(i)
+
 
     root.config(menu=menu_bar)
 
